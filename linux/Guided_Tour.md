@@ -16,3 +16,30 @@
 |/proc|The */proc* directory is also special. This directory does not contain files and even not really exist at all. It is entirely virtual. The */proc* directory contains little peep holes into the kernel itself. There are a group of numbered entries in this directory that correspond to all the processes running on the system. In addition, there are a number of named entries that permit access to the current configuration of the system. Many of these entries can be viewed. Such as */proc/cpuinfo*. This entry will show you what the kernel thinks of the system's CPU|
 |/media|A normal directory which is used in a special way. The */media* directory is used for **mount point**. The different physical storage devices (like hard disk drives) are attached to the file system tree in various places. This process of attaching a device to the treee is called **mounting**. For a device to be available, it must first be mounted.<br><br>When system boots, it reads a list of mounting instructions in the **/etc/fstab** file, which describe which device is mounted at which mount point in the directory tree. This takes care of the hard drives, but we may also have devices that are considered temporary, such as optical disks and USB storage devices. Since these are removable, they do not stay mounted all the time. The **/media** directory is used by the automatic device mounting mechanisms found in modern desktop oriented Linux distributions. To see what devices and mount points are used, type **mount**.|
 
+## Symbolic links
+
+In **/lib** directory, When listd with `ls -l`, you might have seen something like this.
+
+```bash
+lrwxrwxrwx     25 Jul  3 16:42 System.map -> /boot/System.map-4.0.36-3
+-rw-r--r-- 105911 Oct 13  2018 System.map-4.0.36-0.7
+-rw-r--r-- 105935 Dec 29  2018 System.map-4.0.36-3
+-rw-r--r-- 181986 Dec 11  2019 initrd-4.0.36-0.7.img
+-rw-r--r-- 182001 Dec 11  2019 initrd-4.0.36.img
+lrwxrwxrwx     26 Jul  3 16:42 module-info -> /boot/module-info-4.0.36-3
+-rw-r--r--  11773 Oct 13  2018 module-info-4.0.36-0.7
+-rw-r--r--  11773 Dec 29  2018 module-info-4.0.36-3
+lrwxrwxrwx     16 Dec 11  2019 vmlinuz -> vmlinuz-4.0.36-3
+-rw-r--r-- 454325 Oct 13  2018 vmlinuz-4.0.36-0.7
+-rw-r--r-- 454434 Dec 29  2018 vmlinuz-4.0.36-3
+```
+
+Notice the file, System.map, module-info and vmlinuz. Such as these are called *symbolic links*. A special type of file that points to another file.
+
+Symbolic link is essentially the Unix/Linux equivalent of **Windows shortcut** or **MacOS alias**.
+
+With symbolic links, it is possible for q single file to have mutiple names.
+
+Whenever the system is given a file name that is a symbolic link, it transparenly maps it to the file it is pointing to.
+
+For example, when system has had multiple versions of Linux kernel installed. We can see this from the files vmlinuz-4.0.36-0.7 and vmlinuz-4.0.36-3. These file names suggest that both version are installed. Because the file names contain the version it is easy to see the differences in the directory listing. But this would be confusing to programs that rely on a fixed name for kernel file. These programs might expect the kernel to simply be called "vmlinuz". By creating a symbolic link called vmlinuz that points to vmlinuz-4.0.36-3.
