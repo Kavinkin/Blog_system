@@ -129,3 +129,4 @@ The **file** program can recognize most of files, Such as:
 |Zip archive data|An archive compressed with **zip**|N|
 
 An amount of number of files can be viewd as text.This is especially true of the important configuration files.Many features of the operating system are controlled by text configuration files and shell scripts.
+
